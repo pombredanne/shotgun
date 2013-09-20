@@ -1,0 +1,14 @@
+{
+    "name": "screengen",
+    "description": "Screenshot generator service",
+    "author": "Nils De Moor",
+    "version": "1.0.0",
+    "dependencies": {
+        "webshot": "0.5.1",
+        "express": "3.x",
+        "gm": "1.13.1"
+    },
+    "devDependencies": {
+        "nodeunit": "latest"
+    }
+}
