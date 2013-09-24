@@ -5,12 +5,23 @@ var express = require('express'),
 
 var app = express();
 app.set('port', process.env.PORT || 3000);
+app.set('env', process.env.NODE_ENV || 'production')
 
+// Enable logger in development
+if(app.get('env') === 'development')
+  app.use(express.logger('dev'));
+
+// Init middlewares and start server
 app
-  .use(express.logger('dev'))
   .use(app.router)
   .listen(app.get('port'));
 
+// Healthcheck page
+app.get("/healthcheck", function(req, res) {
+  res.send(200, 'OK!');
+});
+
+// Screenshot pages
 app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
   if(req.query.url === undefined)
     res.send(500, 'Please provide a url');
