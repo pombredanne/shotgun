@@ -19,8 +19,9 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
     options = req.params;
   else {
     options = types[req.params.type];
+    options['shotSize'] = { width: 'all', height: 'all' };
     options['timeout'] = req.query.timeout || 20000;
-    options['renderDelay'] = req.query.delay || 0;
+    options['renderDelay'] = req.query.delay || 1000;
   }
 
   webshot(req.query.url, options, function(err, renderStream) {
@@ -31,6 +32,8 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
     }
 
     gm(renderStream)
+      .resize(options.crop.width)
+      .crop(options.crop.width, options.crop.height)
       .resize(options.resize.width, options.resize.height)
       .stream(function (err, stdout, stderr) {
         if(err) {
