@@ -8,15 +8,21 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "../ansible-playbooks/phantomjs.yml"
-    ansible.inventory_path = "provisioning/hosts"
+    ansible.inventory_file = "provisioning/hosts"
     ansible.verbose = true
   end
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "../ansible-playbooks/node_app.yml"
-    ansible.inventory_path = "provisioning/hosts"
+    ansible.inventory_file = "provisioning/hosts"
     ansible.extra_vars = { 
-      env: "development"
+      env: "development",
+      env_vars: "NODE_ENV=${env},PORT=${port}",
+      port: "3001",
+      app_name: "shotgun",
+      monit_http_check: "/healthcheck", 
+      repo: "Woorank/shotgun",
+      deploy_key: "~/.ssh/woorank/deploy_shotgun"
     }
     ansible.verbose = true
   end
