@@ -26,6 +26,9 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
   if(req.query.url === undefined)
     res.send(500, 'Please provide a url');
 
+  if(req.query.webhook !== undefined)
+    res.send('Request for "' + req.query.url + '" received')
+
   if(req.params.type === 'custom')
     options = req.params;
   else {
@@ -55,21 +58,33 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
           console.log(data.toString());
         });
 
-        stdout.on('data', function(data) {
-          if(!hasData) {
-            hasData = true;
-            res.contentType("image/png");
+        if(req.query.webhook === undefined) {
+          stdout.on('data', function(data) {
+            if(!hasData) {
+              hasData = true;
+              res.contentType("image/png");
+            }
+
+            res.write(data);
+          });
+
+          stdout.on('end', function(data) {
+            if(!hasData)
+              res.send(500, 'Something went wrong');
+            else
+              res.send()
+          });
+        } else {
+          // POST to webhook
+          var url = require('url').parse(req.query.webhook);
+          if(url.protocol === 'http:' || url.protocol === 'https:') {
+            var request = require('request');
+            stdout.pipe(request.post(req.query.webhook, function(err) {
+              if (err) 
+                console.log('[ERROR] webhook:', err.toString());
+            }));
           }
-
-          res.write(data);
-        });
-
-        stdout.on('end', function(data) {
-          if(!hasData)
-            res.send(500, 'Something went wrong');
-          else
-            res.send()
-        });
+        }
       });
   });
 });

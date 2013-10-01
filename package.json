@@ -6,7 +6,8 @@
     "dependencies": {
         "webshot": "0.5.1",
         "express": "3.x",
-        "gm": "1.13.1"
+        "gm": "1.13.1",
+        "request": "2.27.0"
     },
     "devDependencies": {
         "nodeunit": "latest"
