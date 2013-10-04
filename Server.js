@@ -1,7 +1,10 @@
-var express = require('express'),
-    webshot = require('webshot'),
-    types   = require('./types.js'),
-    gm      = require('gm');
+var express = require('express')
+,   webshot = require('webshot')
+,   types   = require('./types.js')
+,   gm      = require('gm')
+,   fs      = require('fs');
+
+var preRender = fs.readFileSync('./prerender.js').toString();
 
 var app = express();
 app.set('port', process.env.PORT || 3000);
@@ -36,6 +39,7 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
     options['shotSize'] = { width: 'all', height: 'all' };
     options['timeout'] = req.query.timeout || 20000;
     options['renderDelay'] = req.query.delay || 1000;
+    options['script'] = preRender.replace('%%HEIGHT%%', options.innerHeight);
   }
 
   webshot(req.query.url, options, function(err, renderStream) {
