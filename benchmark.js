@@ -75,7 +75,7 @@ Benchmark.prototype._markupOutput = function(state, path, url, start, err) {
   var now = Date.now();
 
   return [
-      "OK"
+      state
     , path
     , url
     , new Date(start).toLocaleTimeString("en-US", {hour12: false})
