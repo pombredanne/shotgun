@@ -15,17 +15,20 @@ function Benchmark(settings) {
   this.port = (typeof settings.port !== 'undefined') ? settings.port : 80;
   this.timeout = (typeof settings.timeout !== 'undefined') ? settings.timeout : 60*1000;
 
-  this.urlSleep = (typeof settings.urlSleep !== 'undefined') ? settings.urlSleep : 10000;
-  this.pathSleep = (typeof settings.pathSleep !== 'undefined') ? settings.pathSleep : 1000;
+  this.urlSleep = (typeof settings.urlSleep !== 'undefined') ? settings.urlSleep : 10;
+  this.urlSleepSeed = (typeof settings.urlSleepSeed !== 'undefined') ? settings.urlSleepSeed : 0;
+  this.pathSleep = (typeof settings.pathSleep !== 'undefined') ? settings.pathSleep : 1;
 }
 
 Benchmark.prototype.fire = function(urls) {
-  var self = this;
+  var self = this
+    , seedMin = this.urlSleep - this.urlSleepSeed
+    , seedMax = this.urlSleep + this.urlSleepSeed;
 
   urls.forEach(function(url, i) {
     setTimeout(function() { 
       self._runUrl(url);
-    }, i*10000);
+    }, i * Math.floor(Math.random() * (seedMax - seedMin + 1) + seedMin) * 1000);
   });
 }
 
@@ -37,7 +40,7 @@ Benchmark.prototype._runUrl = function(url) {
       self._req(url, path, function(msg) {
         console.log(msg);
       })
-    }, i*1000);
+    }, i * self.pathSleep * 1000);
   });
 }
 
