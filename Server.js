@@ -6,6 +6,8 @@ var express = require('express')
 
 var preRender = fs.readFileSync('./prerender.js').toString();
 
+console.log("Server started at: " + new Date().toUTCString());
+
 var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('env', process.env.NODE_ENV || 'production')
@@ -46,7 +48,7 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
     var hasData = false;
 
     if(err) {
-      console.log('[ERROR] webshot: ' + err);
+      console.log('[ERROR] - ' + req.query.url + ' - webshot: ' + err);
     }
 
     gm(renderStream)
@@ -55,7 +57,7 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
       .resize(options.resize.width, options.resize.height)
       .stream(function (err, stdout, stderr) {
         if(err) {
-          console.log('[ERROR] resizer: ' + err);
+          console.log('[ERROR] - ' + req.query.url + ' - resizer: ' + err);
         }
 
         stderr.on('data', function(data) {
@@ -85,7 +87,7 @@ app.get("/:type(iphone|ipad|desktop|custom)", function(req, res) {
             var request = require('request');
             stdout.pipe(request.post(req.query.webhook, function(err) {
               if (err) 
-                console.log('[ERROR] webhook:', err.toString());
+                console.log('[ERROR] - ' + req.query.url + ' - webhook:', err.toString());
             }));
           }
         }
