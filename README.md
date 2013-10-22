@@ -1,5 +1,14 @@
-shotgun
+Shotgun
 =======
 
-Screenshot generating service
+Service to generate screenshots of webpages.
+
+# Install
+
+# Usage
+
+# Prerender
+
+# Acknowledgements
+
 
