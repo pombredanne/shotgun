@@ -2,16 +2,13 @@
 
 var app = require('../Server.js'),
     express = require('express'),
-    request = require('supertest'),
-    fixtureApp;
+    request = require('supertest');
 
 describe('Routes', function () {
   before(function () {
     // Setup fixture static website
-    fixtureApp = express()
-      .use(express.static(__dirname + '/fixtures/public'))
-      .use(app.router)
-      .listen(4000);
+    app
+      .use(express.static(__dirname + '/fixtures/public'));
   });
 
   describe('GET root', function () {
@@ -33,7 +30,15 @@ describe('Routes', function () {
 
   describe('GET fixture website', function () {
     it('should return 200', function (done) {
-      request('http://localhost:4000')
+      request(app)
+        .get('/test.html')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET fixture website through loopback', function () {
+    it('should return 200', function (done) {
+      request('http://127.0.0.1:3000')
         .get('/test.html')
         .expect(200, done);
     });
