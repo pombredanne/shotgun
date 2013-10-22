@@ -25,5 +25,10 @@
   "validthis" : true,
   
   "white"     : true,
-  "nomen"     : true
+  "nomen"     : true,
+
+  "globals"   : {
+    "describe"  : true,
+    "it"        : true
+  }
 }

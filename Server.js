@@ -21,6 +21,14 @@ if (app.get('env') === 'development') {
   app.use(express.logger('dev'));
 }
 
+if (app.get('env') === 'test') {
+  app.use(express.static(__dirname + '/test/fixtures/public'));
+  app.get('/close', function (req, res) {
+    res.send(200, 'Going down...');
+    process.exit(0);
+  });
+}
+
 // Init middlewares and start server
 app
   .use(app.router)
@@ -104,3 +112,5 @@ app.get('/:type(iphone|ipad|desktop|custom)', function (req, res) {
       });
   });
 });
+
+module.exports = app;
