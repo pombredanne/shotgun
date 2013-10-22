@@ -35,7 +35,7 @@ describe('Routes', function () {
 
   describe('GET fixture website through loopback', function () {
     it('should return 200', function (done) {
-      request('localhost:4000')
+      request('127.0.0.1:4000')
         .get('/test.html')
         .expect(200, done);
     });
