@@ -1,34 +1,34 @@
 {
-    "name": "shotgun",
-    "description": "Website screenshot generation service",
-    "author": "Nils De Moor",
-    "version": "1.0.0",
-    "scripts": {
-        "test": "npm run lint",
-        "lint": "./node_modules/.bin/jshint ."
-    },
-    "dependencies": {
-        "webshot": "0.5.1",
-        "express": "3.x",
-        "gm": "1.13.1",
-        "request": "2.27.0"
-    },
-    "devDependencies": {
-        "nodeunit": "latest",
-        "jshint": "~2.3.0"
-    },
-    "keywords": [
-        "screenshot",
-        "graphicsmagick",
-        "phantomjs",
-        "service"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Woorank/shotgun.git"
-    },
-    "license": "MIT",
-    "engines": {
-        "node": ">=0.10"
-    }
+  "name": "shotgun",
+  "description": "Website screenshot generation service",
+  "author": "Nils De Moor",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "npm run lint",
+    "lint": "./node_modules/.bin/jshint ."
+  },
+  "dependencies": {
+    "webshot": "0.5.1",
+    "express": "3.x",
+    "gm": "1.13.1",
+    "request": "2.27.0"
+  },
+  "devDependencies": {
+    "nodeunit": "latest",
+    "jshint": "~2.3.0"
+  },
+  "keywords": [
+    "screenshot",
+    "graphicsmagick",
+    "phantomjs",
+    "service"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Woorank/shotgun.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10"
+  }
 }
