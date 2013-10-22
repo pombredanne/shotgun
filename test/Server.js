@@ -1,9 +1,20 @@
 'use strict';
 
 var app = require('../Server.js'),
+    express = require('express'),
     request = require('supertest');
 
 describe('Routes', function () {
+  var fixtureApp;
+
+  before(function (){
+    // Setup fixture static website
+    fixtureApp = express()
+      .use(express.static(__dirname + '/fixtures/public'))
+      .use(app.router)
+      .listen(4000);
+  });
+
   describe('GET root', function () {
     it('should return 404', function (done) {
       request(app)
@@ -17,6 +28,14 @@ describe('Routes', function () {
       request(app)
         .get('/healthcheck')
         .expect('OK!')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET fixture website', function () {
+    it('should return 200', function (done) {
+      request('http://localhost:4000')
+        .get('/test.html')
         .expect(200, done);
     });
   });
