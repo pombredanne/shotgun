@@ -2,12 +2,11 @@
 
 var app = require('../Server.js'),
     express = require('express'),
-    request = require('supertest');
+    request = require('supertest'),
+    fixtureApp;
 
 describe('Routes', function () {
-  var fixtureApp;
-
-  before(function (){
+  before(function () {
     // Setup fixture static website
     fixtureApp = express()
       .use(express.static(__dirname + '/fixtures/public'))
