@@ -18,6 +18,7 @@
     "mocha" : "*",
     "should": "*",
     "supertest" : "*",
+    "sleep": "*",
     "jshint": "~2.3.0"
   },
   "keywords": [
