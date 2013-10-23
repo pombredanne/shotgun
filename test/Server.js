@@ -1,16 +1,12 @@
 'use strict';
 
 var app = require('../Server.js'),
-    fixtureApp = require('./fixtures/Server.js'),
     request = require('supertest'),
-    sleep = require('sleep');
+    express = require('express'),
+    fixtureApp;
 
-describe('Routes', function () {
-  before(function () {
-    // Give the fixture server time to bind to the socket
-    sleep.sleep(3);
-  });
 
+describe('General Routes', function () {
   describe('GET root', function () {
     it('should return 404', function (done) {
       request(app)
@@ -27,6 +23,21 @@ describe('Routes', function () {
         .expect(200, done);
     });
   });
+});
+
+describe('Generation Routes', function () {
+  beforeEach(function () {
+    fixtureApp = express()
+      .use(express.static(__dirname + '/fixtures/public'))
+      .get('/', function (req, res) {
+        res.send(200, 'OK');
+      })
+      .listen(0);
+  });
+
+  afterEach(function () {
+    fixtureApp.close();
+  });
 
   describe('GET fixture website through loopback', function () {
     it('should return 200', function (done) {
@@ -38,15 +49,15 @@ describe('Routes', function () {
 
   describe('GET fixture website through loopback', function () {
     it('should return 200', function (done) {
-      request(fixtureApp)
-        .get('/test.html')
+      request('http://127.0.0.1:' + fixtureApp.address().port)
+        .get('/')
         .expect(200, done);
     });
   });
 
   describe('GET fixture website through loopback', function () {
     it('should return 200', function (done) {
-      request('127.0.0.1:4000')
+      request('http://127.0.0.1:' + fixtureApp.address().port)
         .get('/test.html')
         .expect(200, done);
     });
