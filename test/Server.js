@@ -40,7 +40,7 @@ describe('Generation Routes', function () {
     fixtureApp.close();
   });
 
-  describe('GET /', function () {
+  describe('GET fixture /', function () {
     it('should return 200', function (done) {
       request(fixtureApp)
         .get('/')
@@ -48,7 +48,7 @@ describe('Generation Routes', function () {
     });
   });
 
-  describe('GET / through loopback', function () {
+  describe('GET fixture / through loopback', function () {
     it('should return 200', function (done) {
       request('http://127.0.0.1:' + fixtureApp.address().port)
         .get('/')
@@ -56,11 +56,102 @@ describe('Generation Routes', function () {
     });
   });
 
-  describe('GET test.html', function () {
+  describe('GET fixture /test.html', function () {
     it('should return 200', function (done) {
       request('http://127.0.0.1:' + fixtureApp.address().port)
         .get('/test.html')
         .expect(200, done);
+    });
+  });
+
+  describe('GET /desktop without url', function () {
+    it('should return 400', function (done) {
+      request(app)
+        .get('/desktop')
+        .expect(400, done);
+    });
+  });
+
+  describe('GET /desktop with immediate (1ms) timeout', function () {
+    this.timeout(200);
+    it('should return 500', function (done) {
+      request(app)
+        .get(
+          '/desktop?url=' + 'http://127.0.0.1:' + fixtureApp.address().port +
+          '&timeout=1'
+        )
+        .expect(500, done);
+    });
+  });
+
+  describe('GET /desktop with delay longer than timout', function () {
+    this.timeout(1000);
+    it('should return 500', function (done) {
+      request(app)
+        .get(
+          '/desktop?url=' + 'http://127.0.0.1:' + fixtureApp.address().port +
+          '&timeout=200' +
+          '&delay=400'
+        )
+        .expect(500, done);
+    });
+  });
+
+  describe('GET /desktop screenshot', function () {
+    this.timeout(21000);
+    it('should return 200 and Content-Type \'image/png\'', function (done) {
+      request(app)
+        .get(
+          '/desktop' +
+          '?url=' + 'http://127.0.0.1:' + fixtureApp.address().port +
+            '/test.html' +
+          '&timeout=20000'
+        )
+        .expect('Content-Type', 'image/png')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /iphone screenshot', function () {
+    this.timeout(21000);
+    it('should return 200 and Content-Type \'image/png\'', function (done) {
+      request(app)
+        .get(
+          '/iphone' +
+          '?url=' + 'http://127.0.0.1:' + fixtureApp.address().port +
+            '/test.html' +
+          '&timeout=20000'
+        )
+        .expect('Content-Type', 'image/png')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /ipad screenshot', function () {
+    this.timeout(21000);
+    it('should return 200 and Content-Type \'image/png\'', function (done) {
+      request(app)
+        .get(
+          '/ipad' +
+          '?url=' + 'http://127.0.0.1:' + fixtureApp.address().port +
+            '/test.html' +
+          '&timeout=20000'
+        )
+        .expect('Content-Type', 'image/png')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /desktop screenshot of unexisting url', function () {
+    this.timeout(21000);
+    it('should return 500', function (done) {
+      request(app)
+        .get(
+          '/desktop' +
+          '?url=http://i.do.not.exist' +
+          '&timeout=20000'
+        )
+        .expect(500, done);
     });
   });
 });

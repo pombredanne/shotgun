@@ -34,7 +34,8 @@ app.get('/healthcheck', function (req, res) {
 // Screenshot pages
 app.get('/:type(iphone|ipad|desktop|custom)', function (req, res) {
   if (req.query.url === undefined) {
-    res.send(500, 'Please provide a url');
+    res.send(400, 'Please provide a url');
+    return;
   }
 
   if (req.query.webhook !== undefined) {
