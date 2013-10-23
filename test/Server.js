@@ -1,17 +1,12 @@
 'use strict';
 
 var app = require('../Server.js'),
-    express = require('express'),
+    fixtureApp = require('./fixtures/Server.js'),
     request = require('supertest'),
     sleep = require('sleep');
 
 describe('Routes', function () {
   before(function () {
-    // Setup fixture static website
-    express()
-      .use(express.static(__dirname + '/fixtures/public'))
-      .listen(4000);
-
     // Give the fixture server time to bind to the socket
     sleep.sleep(3);
   });
@@ -29,6 +24,22 @@ describe('Routes', function () {
       request(app)
         .get('/healthcheck')
         .expect('OK!')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET fixture website through loopback', function () {
+    it('should return 200', function (done) {
+      request(fixtureApp)
+        .get('/')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET fixture website through loopback', function () {
+    it('should return 200', function (done) {
+      request(fixtureApp)
+        .get('/test.html')
         .expect(200, done);
     });
   });
