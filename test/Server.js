@@ -29,6 +29,7 @@ describe('Generation Routes', function () {
   beforeEach(function () {
     fixtureApp = express()
       .use(express.static(__dirname + '/fixtures/public'))
+      .use(app.router)
       .get('/', function (req, res) {
         res.send(200, 'OK');
       })
@@ -39,7 +40,7 @@ describe('Generation Routes', function () {
     fixtureApp.close();
   });
 
-  describe('GET fixture website through loopback', function () {
+  describe('GET /', function () {
     it('should return 200', function (done) {
       request(fixtureApp)
         .get('/')
@@ -47,7 +48,7 @@ describe('Generation Routes', function () {
     });
   });
 
-  describe('GET fixture website through loopback', function () {
+  describe('GET / through loopback', function () {
     it('should return 200', function (done) {
       request('http://127.0.0.1:' + fixtureApp.address().port)
         .get('/')
@@ -55,7 +56,7 @@ describe('Generation Routes', function () {
     });
   });
 
-  describe('GET fixture website through loopback', function () {
+  describe('GET test.html', function () {
     it('should return 200', function (done) {
       request('http://127.0.0.1:' + fixtureApp.address().port)
         .get('/test.html')
