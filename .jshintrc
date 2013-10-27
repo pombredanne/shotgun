@@ -18,12 +18,12 @@
   "trailing"  : true,
   "strict"    : true,
   "quotmark"  : true,
-  
+
   "sub"       : true,
   "undef"     : true,
   "funcscope" : true,
   "validthis" : true,
-  
+
   "white"     : true,
   "nomen"     : true,
 
