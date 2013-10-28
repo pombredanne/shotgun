@@ -22,7 +22,7 @@ function parseToBinary(res, callback) {
   });
 }
 
-describe('Server', function () {
+describe('Fixture Image Compare', function () {
   var tmpPath = __dirname + '/tmp-cache',
       resultPath = tmpPath + '/result.png';
 
