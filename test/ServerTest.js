@@ -2,23 +2,8 @@
 
 var app = require('../Server.js'),
     request = require('supertest'),
-    expect = require('chai').expect,
     express = require('express'),
-    gm = require('gm'),
     fixtureApp;
-
-function parseToBinary(res, callback) {
-  res.setEncoding('binary');
-
-  res.data = '';
-  res.on('data', function (chunk) {
-    res.data += chunk;
-  });
-
-  res.on('end', function () {
-    callback(null, new Buffer(res.data, 'binary'));
-  });
-}
 
 describe('Server', function () {
   describe('General Routes', function () {
@@ -114,7 +99,7 @@ describe('Server', function () {
 
     describe('GET /desktop screenshot', function () {
       this.timeout(21000);
-      it('should return 200 (\'image/png\') and size 380x216', function (done) {
+      it('should return 200 and Content-Type \'image/png\'', function (done) {
         request(app)
           .get(
             '/desktop' +
@@ -123,21 +108,13 @@ describe('Server', function () {
             '&timeout=20000'
           )
           .expect('Content-Type', 'image/png')
-          .expect(200)
-          .parse(parseToBinary)
-          .end(function (err, res) {
-            gm(res.body).size(function (err, size) {
-              expect(size.width).to.equal(380);
-              expect(size.height).to.equal(216);
-            });
-            done();
-          });
+          .expect(200, done);
       });
     });
 
     describe('GET /iphone screenshot', function () {
       this.timeout(21000);
-      it('should return 200 (\'image/png\') and size 114x148', function (done) {
+      it('should return 200 and Content-Type \'image/png\'', function (done) {
         request(app)
           .get(
             '/iphone' +
@@ -146,21 +123,13 @@ describe('Server', function () {
             '&timeout=20000'
           )
           .expect('Content-Type', 'image/png')
-          .expect(200)
-          .parse(parseToBinary)
-          .end(function (err, res) {
-            gm(res.body).size(function (err, size) {
-              expect(size.width).to.equal(114);
-              expect(size.height).to.equal(148);
-            });
-            done();
-          });
+          .expect(200, done);
       });
     });
 
     describe('GET /ipad screenshot', function () {
       this.timeout(21000);
-      it('should return 200 (\'image/png\') and size 269x202', function (done) {
+      it('should return 200 and Content-Type \'image/png\'', function (done) {
         request(app)
           .get(
             '/ipad' +
@@ -169,15 +138,7 @@ describe('Server', function () {
             '&timeout=20000'
           )
           .expect('Content-Type', 'image/png')
-          .expect(200)
-          .parse(parseToBinary)
-          .end(function (err, res) {
-            gm(res.body).size(function (err, size) {
-              expect(size.width).to.equal(269);
-              expect(size.height).to.equal(202);
-            });
-            done();
-          });
+          .expect(200, done);
       });
     });
 
