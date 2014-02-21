@@ -1,4 +1,4 @@
-Shotgun [![Build Status](https://travis-ci.org/Woorank/shotgun.png?branch=master)](https://travis-ci.org/Woorank/shotgun)
+Shotgun [![Build Status](https://travis-ci.org/Woorank/shotgun.png?branch=master)](https://travis-ci.org/Woorank/shotgun) [![Coverage Status](https://coveralls.io/repos/Woorank/shotgun/badge.png)](https://coveralls.io/r/Woorank/shotgun)
 =======
 
 Service to generate screenshots of webpages.

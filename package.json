@@ -6,7 +6,9 @@
   "scripts": {
     "test": "npm run lint && npm run test-node",
     "lint": "./node_modules/.bin/jshint .",
-    "test-node": "NODE_ENV=test ./node_modules/.bin/mocha --slow 10s --reporter spec"
+    "test-node": "NODE_ENV=test ./node_modules/.bin/mocha --slow 10s --reporter spec",
+    "coverage": "NODE_ENV=test ./node_modules/.bin/mocha -r blanket -R html-cov > coverage.html",
+    "coveralls": "NODE_ENV=test ./node_modules/.bin/mocha -r blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
   },
   "dependencies": {
     "webshot": "0.5.1",
@@ -19,6 +21,9 @@
     "mocha" : "*",
     "chai": "*",
     "supertest" : "*",
+    "blanket": "~1.1.6",
+    "mocha-lcov-reporter": "0.0.1",
+    "coveralls": "~2.6.1",
     "jshint": "~2.3.0"
   },
   "keywords": [
@@ -34,5 +39,14 @@
   "license": "MIT",
   "engines": {
     "node": ">=0.10"
+  },
+  "config": {
+    "blanket": {
+      "pattern": ".",
+      "data-cover-never": "node_modules/",
+      "reporter_options": {
+        "shortnames": true
+      }
+    }
   }
 }
