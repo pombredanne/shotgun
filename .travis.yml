@@ -5,3 +5,5 @@ before_install: sudo apt-get update
 install:
   - sudo apt-get install graphicsmagick fontconfig libfreetype6-dev
   - npm install
+after_success :
+  - npm run coveralls
