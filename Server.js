@@ -26,7 +26,7 @@ app
   .use(app.router)
   .listen(app.get('port'));
 
-logger.info('Server started at: ' + new Date().toUTCString());
+logger.info('Server started on ' + app.get('port') + ' at: ' + new Date().toUTCString());
 
 // Healthcheck page
 app.get('/healthcheck', function (req, res) {
