@@ -4,13 +4,8 @@ var express = require('express'),
     webshot = require('webshot'),
     types   = require('./types.js'),
     gm      = require('gm'),
-    fs      = require('fs'),
     bunyan  = require('bunyan'),
     logger;
-
-var preRender = fs
-  .readFileSync('./prerender/remove-belowfold-images.js')
-  .toString();
 
 var app = express();
 app.set('port', process.env.PORT || 3000);
@@ -26,7 +21,9 @@ app
   .use(app.router)
   .listen(app.get('port'));
 
-logger.info('Server started on ' + app.get('port') + ' at: ' + new Date().toUTCString());
+logger.info(
+  'Server started on %s at: %s', app.get('port'), new Date().toUTCString()
+);
 
 // Healthcheck page
 app.get('/healthcheck', function (req, res) {
@@ -54,10 +51,20 @@ app.get('/:type(iphone|ipad|desktop|custom)', function (req, res) {
     options['shotSize'] = { width: 'all', height: 'all' };
     options['timeout'] = req.query.timeout || 20000;
     options['renderDelay'] = req.query.delay || 1000;
-    options['script'] = preRender.replace('%%HEIGHT%%', options.innerHeight);
+    options['errorIfStatusIsNot200'] = true;
+    options['onInitialized'] = {
+      fn: require('./prerender/remove-belowfold-images'),
+      context: {
+        foldHeight: options.innerHeight
+      }
+    };
   }
-
+  var calledBack = false;
   webshot(req.query.url, options, function (err, renderStream) {
+    if (calledBack) {
+      return;
+    }
+    calledBack = true;
     var hasData = false;
 
     if (err) {

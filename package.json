@@ -12,9 +12,9 @@
     "coveralls": "NODE_ENV=test ./node_modules/.bin/mocha -r blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
   },
   "dependencies": {
-    "webshot": "0.5.1",
+    "webshot": "0.15.3",
     "express": "3.x",
-    "gm": "1.13.1",
+    "gm": "1.16.0",
     "request": "2.27.0",
     "bunyan": "0.22.x"
   },
