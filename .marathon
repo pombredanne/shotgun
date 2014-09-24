@@ -1,0 +1,14 @@
+application: shotgun
+env_vars:
+  - NODE_ENV
+  - PORT
+default:
+  docker_image: woorank/shotgun
+  docker_tag: latest
+  service_port: 10010
+  cpus: 0.2
+  memory: 128
+  instances: 5
+test:
+  service_port: 12010
+  instances: 2
