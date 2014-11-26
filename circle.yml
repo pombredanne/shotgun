@@ -13,3 +13,5 @@ deployment:
     commands:
       - echo "{\"https://index.docker.io/v1/\":{\"auth\":\"<AUTH>\",\"email\":\"<EMAIL>\"}}" | sed "s/<EMAIL>/$HUB_EMAIL/;s/<AUTH>/$HUB_AUTH/" > ~/.dockercfg
       - docker push woorank/shotgun:$CIRCLE_BUILD_NUM
+      - docker tag woorank/shotgun:$CIRCLE_BUILD_NUM woorank/shotgun:latest
+      - docker push woorank/shotgun:latest
