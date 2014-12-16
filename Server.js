@@ -8,7 +8,7 @@ var express = require('express'),
     logger;
 
 var app = express();
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.APP_PORT || process.env.PORT || 3000);
 app.set('env', process.env.NODE_ENV || 'production');
 
 logger = bunyan.createLogger({
